@@ -13,18 +13,17 @@ const client = new MongoClient(url);
 
 let alunos;
 
-// Conectar ao banco e iniciar servidor
 async function iniciarServidor() {
     try {
         await client.connect();
 
-        console.log("Conectado ao MongoDB!");
+        console.log("Conectado ao MongoDB");
 
         const db = client.db("crud_alunos");
         alunos = db.collection("alunos");
 
         app.listen(3000, () => {
-            console.log("Servidor rodando na porta 3000!");
+            console.log("Servidor rodando na porta 3000");
         });
 
     } catch (erro) {
@@ -44,7 +43,7 @@ app.post("/alunos", async (req, res) => {
         });
 
         res.status(201).json({
-            mensagem: "Aluno cadastrado!",
+            mensagem: "Aluno cadastrado",
             id: resultado.insertedId
         });
 
@@ -65,14 +64,13 @@ app.get("/alunos", async (req, res) => {
     }
 });
 
-// UPDATE - Atualizar aluno
 app.put("/alunos/:id", async (req, res) => {
     try {
         const { id } = req.params;
         const { nome, curso, semestre } = req.body;
 
         if (!ObjectId.isValid(id)) {
-            return res.status(400).json({ mensagem: "ID inválido." });
+            return res.status(400).json({ mensagem: "ID inválida." });
         }
 
         const resultado = await alunos.updateOne(
@@ -90,20 +88,19 @@ app.put("/alunos/:id", async (req, res) => {
             return res.status(404).json({ mensagem: "Aluno não encontrado." });
         }
 
-        res.json({ mensagem: "Aluno atualizado!" });
+        res.json({ mensagem: "Aluno atualizado" });
 
     } catch (erro) {
         res.status(500).json({ mensagem: "Erro ao atualizar." });
     }
 });
 
-// DELETE - Excluir aluno
 app.delete("/alunos/:id", async (req, res) => {
     try {
         const { id } = req.params;
 
         if (!ObjectId.isValid(id)) {
-            return res.status(400).json({ mensagem: "ID inválido." });
+            return res.status(400).json({ mensagem: "ID inválida." });
         }
 
         const resultado = await alunos.deleteOne({
